@@ -45,15 +45,13 @@ export const AuthProvider = ({ children }) => {
     if (!nonce) {
       return console.error("No nonce");
     }
-    const inputMsg = genMessage(nonce);
-    const signed = await ethereum.request({
+    const message = genMessage(nonce);
+    const signature = await ethereum.request({
       method: "personal_sign",
-      params: [inputMsg, address],
+      params: [message, address],
     });
 
-    console.log(signed);
-
-    return { inputMsg, signed };
+    return { message, signature};
   };
 
   const sendSigned = async (signed, address, nonce) => {
